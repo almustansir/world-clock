@@ -46,4 +46,4 @@ A sleek, real-time world clock application originally designed as a static dashb
 
 ---
 
-_Inspired by the original World Digital Clocks HTML project._
+_Work in Progress_
