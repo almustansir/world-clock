@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  /* You can define custom animations or colors here if needed */
+}
+
+body {
+  color: white;
+  /* Re-creating your original background from the HTML */
+  background: linear-gradient(-45deg, #0f172a, #1e293b, #0ea5e9, #1e293b);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  min-height: 100vh;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
