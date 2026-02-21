@@ -1,38 +1,49 @@
-### World Clock
+# 🌍 World Digital Clocks (Next.js Edition)
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+A sleek, real-time world clock application originally designed as a static dashboard and now fully evolved into a high-performance **Next.js** application.
 
-## Getting Started
+## 🚀 Features
 
-First, run the development server:
+- **Real-Time Updates**: Synchronized clocks for multiple global cities (Dhaka, Melbourne, Texas, New Jersey, and Tennessee).
+- **12/24-Hour Toggle**: Seamlessly switch between time formats across all clocks.
+- **Glassmorphism UI**: Modern frosted-glass card design with hover effects.
+- **Animated Background**: Smooth, 12-second gradient CSS animation for a dynamic feel.
+- **Type Safety**: Fully written in **TypeScript** for robust development and error handling.
+- **Tailwind CSS v4**: Powered by the latest high-performance CSS engine.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠️ Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **Date Handling**: Internationalization API (`Intl.DateTimeFormat`)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🏁 Getting Started
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.  **Clone the repository:**
 
-## Learn More
+    ```bash
+    git clone [https://github.com/your-username/world-clock-nextjs.git](https://github.com/your-username/world-clock-nextjs.git)
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Install dependencies:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    npm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
 
-## Deploy on Vercel
+## 📈 Future Roadmap
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [ ] Add a search bar to dynamically add new cities.
+- [ ] Implement local storage to save user-preferred cities.
+- [ ] Add Dark/Light mode toggle.
+- [ ] Weather integration for each city.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+_Inspired by the original World Digital Clocks HTML project._
