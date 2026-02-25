@@ -59,7 +59,7 @@ This project is currently a **work in progress**. Planned updates include:
 
 - [ ] **Search Functionality**: Allow users to add any city in the world dynamically.
 - [ ] **Persistent Settings**: Save 12/24h preference and selected cities to `localStorage`.
-- [ ] **Visual Weather Icons**: Add dynamic icons/emojis based on weather codes (e.g., ☀️, 🌧️).
+- [x] **Visual Weather Icons**: Add dynamic icons/emojis based on weather codes (e.g., ☀️, 🌧️).
 - [ ] **Unit Toggle**: Support for Fahrenheit (°F) as well as Celsius (°C).
 
 ---

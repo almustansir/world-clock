@@ -33,6 +33,7 @@ export default function ClockCard({
   const [weather, setWeather] = useState<{
     temp: number;
     condition: string;
+    icon: string; // New property for the emoji
   } | null>(null);
 
   /**
@@ -102,9 +103,11 @@ export default function ClockCard({
           `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`,
         );
         const data = await response.json();
+        const weatherInfo = getWeatherInfo(data.current_weather.weathercode);
         setWeather({
           temp: Math.round(data.current_weather.temperature),
-          condition: getWeatherDesc(data.current_weather.weathercode),
+          condition: weatherInfo.condition,
+          icon: weatherInfo.icon, // Store the emoji here
         });
       } catch (error) {
         console.error("Weather Error:", error);
@@ -143,16 +146,24 @@ export default function ClockCard({
       <div className="pt-4 border-t border-white/5 w-full flex justify-around items-center">
         {weather ? (
           <>
-            <div className="text-2xl font-semibold text-white">
-              {weather.temp}°C
+            {/* Left side: Icon and Temp */}
+            <div className="flex items-center gap-3">
+              <span className="text-3xl drop-shadow-sm">{weather.icon}</span>
+              <span className="text-2xl font-bold text-white tracking-tight">
+                {weather.temp}°C
+              </span>
             </div>
-            <div className="text-slate-400 italic text-sm">
-              {weather.condition}
+
+            {/* Right side: Condition text */}
+            <div className="text-right">
+              <span className="text-slate-400 text-sm font-medium uppercase tracking-wider">
+                {weather.condition}
+              </span>
             </div>
           </>
         ) : (
-          <div className="text-slate-500 text-xs animate-pulse">
-            Fetching Weather...
+          <div className="text-slate-500 text-xs font-mono animate-pulse uppercase tracking-widest">
+            📡 Loading Weather Data...
           </div>
         )}
       </div>
@@ -161,22 +172,24 @@ export default function ClockCard({
 }
 
 /**
- * Helper: Weather Code Interpreter
- * Translates WMO Weather interpretation codes into user-friendly strings.
- * Reference: https://open-meteo.com/en/docs
+ * Maps WMO Weather interpretation codes to descriptions and emojis.
+ * @param code - The numeric weather code from Open-Meteo
+ * @returns An object containing the condition text and an emoji icon
  */
-function getWeatherDesc(code: number): string {
-  const descriptions: Record<number, string> = {
-    0: "Clear Sky",
-    1: "Mainly Clear",
-    2: "Partly Cloudy",
-    3: "Overcast",
-    45: "Foggy",
-    48: "Rime Fog",
-    51: "Light Drizzle",
-    61: "Slight Rain",
-    71: "Slight Snow",
-    95: "Thunderstorm",
+function getWeatherInfo(code: number): { condition: string; icon: string } {
+  const weatherMap: Record<number, { condition: string; icon: string }> = {
+    0: { condition: "Clear Sky", icon: "☀️" },
+    1: { condition: "Mainly Clear", icon: "🌤️" },
+    2: { condition: "Partly Cloudy", icon: "⛅" },
+    3: { condition: "Overcast", icon: "☁️" },
+    45: { condition: "Foggy", icon: "🌫️" },
+    48: { condition: "Rime Fog", icon: "🌫️" },
+    51: { condition: "Light Drizzle", icon: "🌦️" },
+    61: { condition: "Slight Rain", icon: "🌧️" },
+    63: { condition: "Moderate Rain", icon: "🌧️" },
+    71: { condition: "Slight Snow", icon: "❄️" },
+    95: { condition: "Thunderstorm", icon: "⛈️" },
   };
-  return descriptions[code] || "Variable";
+
+  return weatherMap[code] || { condition: "Variable", icon: "🌡️" };
 }
