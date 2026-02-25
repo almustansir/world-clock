@@ -1,21 +1,7 @@
 "use client";
 import { useState } from "react";
-import ClockCard from "./components/ClockCard";
-
-interface CityConfig {
-  city: string;
-  timezone: string;
-  flag: string;
-}
-
-// Data migrated from your original HTML file
-const CITIES: CityConfig[] = [
-  { city: "Dhaka", timezone: "Asia/Dhaka", flag: "🇧🇩" },
-  { city: "Melbourne", timezone: "Australia/Melbourne", flag: "🇦🇺" },
-  { city: "Texas", timezone: "America/Chicago", flag: "🇺🇸" },
-  { city: "New Jersey", timezone: "America/New_York", flag: "🇺🇸" },
-  { city: "Tennessee", timezone: "America/Chicago", flag: "🇺🇸" },
-];
+import ClockCard from "../components/ClockCard";
+import { CITIES } from "../constants/cities"; // Import it here
 
 export default function WorldClockPage() {
   const [is24Hour, setIs24Hour] = useState<boolean>(false);
