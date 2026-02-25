@@ -1,20 +1,68 @@
+/**
+ * Tailwind CSS v4 Main Entry Point
+ * --------------------------------
+ * In v4, the '@import "tailwindcss";' directive replaces the old v3 
+ * @tailwind base, components, and utilities. It automatically 
+ * handles resets (Preflight) and utility generation.
+ */
 @import "tailwindcss";
 
+/**
+ * Custom Theme Configuration
+ * ---------------------------
+ * The @theme block is the new standard for extending Tailwind's default 
+ * configuration directly in CSS. Any custom colors, spacing, or 
+ * animations defined here become available as utility classes.
+ */
 @theme {
-  /* You can define custom animations or colors here if needed */
+  /* You can define custom variables here that Tailwind will pick up */
 }
 
+/**
+ * Global Body Styles
+ * ------------------
+ * Re-creates the visual identity from the original HTML source.
+ */
 body {
+  /* Ensures high contrast for text over the dark gradient background */
   color: white;
-  /* Re-creating your original background from the HTML */
+
+  /**
+   * Animated Background Gradient
+   * 1. linear-gradient: Creates the multi-stop depth using slate and sky colors.
+   * 2. background-size: Set to 400% to ensure there is "room" for the gradient to move.
+   * 3. animation: References the 'gradientBG' keyframes defined below.
+   */
   background: linear-gradient(-45deg, #0f172a, #1e293b, #0ea5e9, #1e293b);
   background-size: 400% 400%;
   animation: gradientBG 12s ease infinite;
+
+  /* Ensures the gradient covers the full height of the viewport even on empty pages */
   min-height: 100vh;
 }
 
+/**
+ * Keyframes: gradientBG
+ * ---------------------
+ * Smoothly shifts the background-position to create the "flowing" 
+ * liquid effect. Shifting from 0% to 100% and back creates a 
+ * seamless infinite loop.
+ */
 @keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
+
+/**
+ * Layer Utilities (Optional)
+ * --------------------------
+ * Use @layer utilities for any custom CSS classes you want to 
+ * combine with Tailwind's hover/focus/breakpoint modifiers.
+ */

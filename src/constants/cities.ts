@@ -1,13 +1,40 @@
+/**
+ * CityConfig Interface
+ * -------------------
+ * Defines the required structure for any city added to the dashboard.
+ * Using a strict interface ensures type safety across the application
+ * when mapping through the city list.
+ */
 export interface CityConfig {
+  /** The display name of the city (e.g., "Dhaka") */
   city: string;
+  /** * A valid IANA timezone string.
+   * Must be compatible with Intl.DateTimeFormat (e.g., "Asia/Dhaka").
+   */
   timezone: string;
+  /** The country's emoji flag used for visual decoration */
   flag: string;
+  /** Decimal latitude coordinate required for the weather API */
   lat: number;
+  /** Decimal longitude coordinate required for the weather API */
   lon: number;
 }
 
+/**
+ * CITIES Constant
+ * ---------------
+ * The primary data source for the application.
+ * This array is mapped in the main page to generate ClockCard components.
+ * * Note on Coordinates: Used for fetching current weather data via Open-Meteo.
+ */
 export const CITIES: CityConfig[] = [
-  { city: "Dhaka", timezone: "Asia/Dhaka", flag: "🇧🇩", lat: 23.81, lon: 90.41 },
+  {
+    city: "Dhaka",
+    timezone: "Asia/Dhaka",
+    flag: "🇧🇩",
+    lat: 23.81,
+    lon: 90.41,
+  },
   {
     city: "Melbourne",
     timezone: "Australia/Melbourne",

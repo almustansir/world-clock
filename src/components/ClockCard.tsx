@@ -1,11 +1,24 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { CityConfig } from "@/constants/cities";
 
+/**
+ * Props for the ClockCard component.
+ * Extends CityConfig to inherit geographic and identification data.
+ */
 interface ClockProps extends CityConfig {
+  /** Global state determining if time is shown in 24h or 12h format */
   is24Hour: boolean;
 }
 
+/**
+ * ClockCard Component
+ * -------------------
+ * Displays a real-time digital clock and localized weather for a specific city.
+ * * DESIGN NOTE: Uses 'backdrop-blur' and 'bg-slate-900/85' for a Glassmorphism effect,
+ * ensuring readability against the animated background in the parent layout.
+ */
 export default function ClockCard({
   city,
   timezone,
@@ -14,24 +27,37 @@ export default function ClockCard({
   lon,
   is24Hour,
 }: ClockProps) {
+  // --- State Hooks ---
   const [time, setTime] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [weather, setWeather] = useState<{
     temp: number;
     condition: string;
   } | null>(null);
+
+  /**
+   * 'mounted' state is critical for Next.js/SSR.
+   * It prevents the "Hydration Mismatch" error by ensuring the component
+   * only renders time-sensitive data once it reaches the client's browser.
+   */
   const [mounted, setMounted] = useState(false);
 
+  // Triggered on initial component mount
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  /**
+   * Effect: Time Sync Logic
+   * Updates the clock every 1000ms (1 second).
+   */
   useEffect(() => {
     if (!mounted) return;
 
     const update = () => {
       const now = new Date();
       try {
+        // Intl.DateTimeFormat handles timezone offsets automatically
         setTime(
           new Intl.DateTimeFormat("en-US", {
             timeZone: timezone,
@@ -51,8 +77,6 @@ export default function ClockCard({
             day: "numeric",
           }).format(now),
         );
-
-        // Offset calculation logic removed from here
       } catch (e) {
         console.error("Timezone Error:", timezone, e);
       }
@@ -60,11 +84,18 @@ export default function ClockCard({
 
     update();
     const interval = setInterval(update, 1000);
+
+    // Cleanup interval on component unmount to prevent memory leaks
     return () => clearInterval(interval);
   }, [timezone, is24Hour, mounted]);
 
+  /**
+   * Effect: Weather Integration
+   * Fetches data from Open-Meteo based on latitude/longitude.
+   */
   useEffect(() => {
     if (!mounted) return;
+
     async function fetchWeather() {
       try {
         const response = await fetch(
@@ -82,6 +113,11 @@ export default function ClockCard({
     fetchWeather();
   }, [lat, lon, mounted]);
 
+  /**
+   * SSR Safety Check
+   * While the component is mounting, we show a 'pulse' skeleton to
+   * maintain the layout structure without showing incorrect data.
+   */
   if (!mounted) {
     return (
       <div className="h-48 w-full bg-slate-900/50 rounded-3xl animate-pulse" />
@@ -90,32 +126,45 @@ export default function ClockCard({
 
   return (
     <div className="bg-slate-900/85 backdrop-blur-md p-6 rounded-3xl shadow-2xl transition-all hover:scale-105 border border-white/10 flex flex-col items-center">
+      {/* City Identification Section */}
       <div className="text-sky-400 text-xl mb-1 font-medium">
         {city} {flag}
       </div>
+
+      {/* Primary Clock Display - uses monospace font for stability */}
       <div className="text-4xl font-bold font-mono mb-2">
         {time || "--:--:--"}
       </div>
+
+      {/* Localized Date */}
       <div className="text-slate-300 text-sm mb-4">{date}</div>
 
-      {/* UTC Offset section has been removed from here */}
-
+      {/* Bottom Weather Dashboard Section */}
       <div className="pt-4 border-t border-white/5 w-full flex justify-around items-center">
         {weather ? (
           <>
             <div className="text-2xl font-semibold text-white">
               {weather.temp}°C
             </div>
-            <div className="text-slate-400 italic">{weather.condition}</div>
+            <div className="text-slate-400 italic text-sm">
+              {weather.condition}
+            </div>
           </>
         ) : (
-          <div className="text-slate-500 text-xs">Fetching Weather...</div>
+          <div className="text-slate-500 text-xs animate-pulse">
+            Fetching Weather...
+          </div>
         )}
       </div>
     </div>
   );
 }
 
+/**
+ * Helper: Weather Code Interpreter
+ * Translates WMO Weather interpretation codes into user-friendly strings.
+ * Reference: https://open-meteo.com/en/docs
+ */
 function getWeatherDesc(code: number): string {
   const descriptions: Record<number, string> = {
     0: "Clear Sky",
