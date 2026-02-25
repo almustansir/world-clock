@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { CityConfig } from "../constants/cities";
+import { CityConfig } from "@/constants/cities";
 
 interface ClockProps extends CityConfig {
   is24Hour: boolean;

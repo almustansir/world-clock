@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import ClockCard from "../components/ClockCard";
-import { CITIES } from "../constants/cities"; // Import it here
+import ClockCard from "@/components/ClockCard";
+import { CITIES } from "@/constants/cities"; // Import it here
 
 export default function WorldClockPage() {
   const [is24Hour, setIs24Hour] = useState<boolean>(false);
