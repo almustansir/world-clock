@@ -16,14 +16,12 @@ export default function ClockCard({
 }: ClockProps) {
   const [time, setTime] = useState<string>("");
   const [date, setDate] = useState<string>("");
-  const [offset, setOffset] = useState<string>("");
   const [weather, setWeather] = useState<{
     temp: number;
     condition: string;
   } | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // Set mounted to true on the client
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -54,17 +52,7 @@ export default function ClockCard({
           }).format(now),
         );
 
-        const tzDate = new Date(
-          now.toLocaleString("en-US", { timeZone: timezone }),
-        );
-        const diffMinutes = Math.round(
-          (tzDate.getTime() - now.getTime()) / 60000,
-        );
-        const hours = Math.floor(diffMinutes / 60);
-        const mins = Math.abs(diffMinutes % 60);
-        setOffset(
-          `UTC ${hours >= 0 ? "+" : ""}${hours}${mins ? ":" + mins : ""}`,
-        );
+        // Offset calculation logic removed from here
       } catch (e) {
         console.error("Timezone Error:", timezone, e);
       }
@@ -75,7 +63,6 @@ export default function ClockCard({
     return () => clearInterval(interval);
   }, [timezone, is24Hour, mounted]);
 
-  // Weather Fetch
   useEffect(() => {
     if (!mounted) return;
     async function fetchWeather() {
@@ -95,10 +82,9 @@ export default function ClockCard({
     fetchWeather();
   }, [lat, lon, mounted]);
 
-  // Return a skeleton or empty div until mounted to prevent Hydration errors
   if (!mounted) {
     return (
-      <div className="h-64 w-full bg-slate-900/50 rounded-3xl animate-pulse" />
+      <div className="h-48 w-full bg-slate-900/50 rounded-3xl animate-pulse" />
     );
   }
 
@@ -107,23 +93,20 @@ export default function ClockCard({
       <div className="text-sky-400 text-xl mb-1 font-medium">
         {city} {flag}
       </div>
-      <div className="text-4xl font-bold font-mono mb-4">
+      <div className="text-4xl font-bold font-mono mb-2">
         {time || "--:--:--"}
       </div>
-      <div className="text-slate-300 text-sm">{date}</div>
-      <div className="text-slate-500 text-xs mt-1 uppercase tracking-widest">
-        {offset}
-      </div>
+      <div className="text-slate-300 text-sm mb-4">{date}</div>
 
-      <div className="mt-4 pt-4 border-t border-white/5 w-full flex justify-around items-center">
+      {/* UTC Offset section has been removed from here */}
+
+      <div className="pt-4 border-t border-white/5 w-full flex justify-around items-center">
         {weather ? (
           <>
             <div className="text-2xl font-semibold text-white">
               {weather.temp}°C
             </div>
-            <div className="text-slate-400 text-sm italic">
-              {weather.condition}
-            </div>
+            <div className="text-slate-400 italic">{weather.condition}</div>
           </>
         ) : (
           <div className="text-slate-500 text-xs">Fetching Weather...</div>
