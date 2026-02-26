@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ClockCard from "@/components/ClockCard";
 import CitySearch from "@/components/CitySearch"; // Ensure you created this file!
-import { CITIES as initialCities } from "@/constants/cities";
+import { CITIES as defaultCities } from "@/constants/cities";
 import { CityConfig } from "@/types";
 
 /**
@@ -13,8 +13,29 @@ import { CityConfig } from "@/types";
 export default function WorldClockPage() {
   const [is24Hour, setIs24Hour] = useState<boolean>(false);
 
-  // Initialize state with your default cities from cities.ts
-  const [cities, setCities] = useState<CityConfig[]>(initialCities);
+  // We start with an empty array or defaultCities to prevent SSR flickering
+  const [cities, setCities] = useState<CityConfig[]>(defaultCities);
+  const [hasLoaded, setHasLoaded] = useState(false);
+
+  // --- 1. Load from localStorage on Mount ---
+  useEffect(() => {
+    const savedCities = localStorage.getItem("world_clock_cities");
+    if (savedCities) {
+      try {
+        setCities(JSON.parse(savedCities));
+      } catch (e) {
+        console.error("Failed to parse saved cities", e);
+      }
+    }
+    setHasLoaded(true);
+  }, []);
+
+  // --- 2. Save to localStorage whenever 'cities' changes ---
+  useEffect(() => {
+    if (hasLoaded) {
+      localStorage.setItem("world_clock_cities", JSON.stringify(cities));
+    }
+  }, [cities, hasLoaded]);
 
   /**
    * This is the function that was missing!
@@ -32,15 +53,18 @@ export default function WorldClockPage() {
     }
   };
 
+  // Optional: Add a function to remove cities
+  const removeCity = (cityToDelete: string) => {
+    setCities(cities.filter((c) => c.city !== cityToDelete));
+  };
+
   return (
     <main className="flex flex-col items-center py-12 px-6">
       <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white drop-shadow-md">
         🌍 World Digital Clocks
       </h1>
 
-      {/* Container for Search and Toggle */}
       <div className="flex flex-col items-center w-full max-w-md gap-4 mb-12">
-        {/* Pass the addCity function as a prop to the Search component */}
         <CitySearch onCityAdd={addCity} />
 
         <button
@@ -51,14 +75,19 @@ export default function WorldClockPage() {
         </button>
       </div>
 
-      {/* The Grid mapping the current state of 'cities' */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full">
         {cities.map((loc) => (
-          <ClockCard
-            key={`${loc.timezone}-${loc.city}`}
-            {...loc}
-            is24Hour={is24Hour}
-          />
+          <div key={`${loc.timezone}-${loc.city}`} className="relative group">
+            <ClockCard {...loc} is24Hour={is24Hour} />
+
+            {/* Simple Remove Button - hidden until hover */}
+            <button
+              onClick={() => removeCity(loc.city)}
+              className="absolute -top-2 -right-2 bg-red-500 text-white w-8 h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:bg-red-600 cursor-pointer z-10"
+            >
+              ✕
+            </button>
+          </div>
         ))}
       </div>
     </main>
