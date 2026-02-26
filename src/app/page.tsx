@@ -53,9 +53,24 @@ export default function WorldClockPage() {
     }
   };
 
-  // Optional: Add a function to remove cities
+  // Function to remove cities
   const removeCity = (cityToDelete: string) => {
     setCities(cities.filter((c) => c.city !== cityToDelete));
+  };
+
+  /**
+   * Resets the dashboard to its initial state.
+   * Clears localStorage and reverts the cities array to the original list.
+   */
+  const resetToDefaults = () => {
+    if (
+      confirm(
+        "Are you sure you want to reset? This will remove all your added cities.",
+      )
+    ) {
+      localStorage.removeItem("world_clock_cities"); // Clear the saved data
+      setCities(defaultCities); // Revert state to the imported constant
+    }
   };
 
   return (
@@ -64,15 +79,26 @@ export default function WorldClockPage() {
         🌍 World Digital Clocks
       </h1>
 
-      <div className="flex flex-col items-center w-full max-w-md gap-4 mb-12">
+      <div className="flex flex-col items-center w-full max-w-md gap-3 mb-12">
         <CitySearch onCityAdd={addCity} />
 
-        <button
-          onClick={() => setIs24Hour(!is24Hour)}
-          className="w-full px-8 py-3 bg-sky-400 text-slate-950 font-bold rounded-xl hover:bg-white transition-all shadow-lg active:scale-95 cursor-pointer"
-        >
-          {is24Hour ? "Switch to 12-Hour Format" : "Switch to 24-Hour Format"}
-        </button>
+        <div className="grid grid-cols-2 gap-3 w-full">
+          {/* Toggle Button */}
+          <button
+            onClick={() => setIs24Hour(!is24Hour)}
+            className="px-4 py-3 bg-sky-400 text-slate-950 font-bold rounded-xl hover:bg-white transition-all shadow-lg active:scale-95 cursor-pointer"
+          >
+            {is24Hour ? "12H Format" : "24H Format"}
+          </button>
+
+          {/* New Reset Button */}
+          <button
+            onClick={resetToDefaults}
+            className="px-4 py-3 bg-white/10 text-white border border-white/20 font-bold rounded-xl hover:bg-red-500 hover:border-red-500 transition-all active:scale-95 cursor-pointer"
+          >
+            Reset Defaults
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full">
