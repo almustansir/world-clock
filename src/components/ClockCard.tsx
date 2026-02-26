@@ -130,8 +130,16 @@ export default function ClockCard({
   return (
     <div className="bg-slate-900/85 backdrop-blur-md p-6 rounded-3xl shadow-2xl transition-all hover:scale-105 border border-white/10 flex flex-col items-center">
       {/* City Identification Section */}
-      <div className="text-sky-400 text-xl mb-1 font-medium">
-        {city} {flag}
+      <div className="flex items-center gap-3 text-sky-400 text-xl mb-2 font-semibold">
+        {/* The City Name */}
+        <span>{city}</span>
+
+        {/* The Flag Image */}
+        <img
+          src={flag}
+          alt=""
+          className="w-7 h-5 object-cover rounded shadow-sm border border-white/10"
+        />
       </div>
 
       {/* Primary Clock Display - uses monospace font for stability */}

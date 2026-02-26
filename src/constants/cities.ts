@@ -31,36 +31,42 @@ export const CITIES: CityConfig[] = [
   {
     city: "Dhaka",
     timezone: "Asia/Dhaka",
-    flag: "🇧🇩",
+    flag: "https://open-meteo.com/images/country-flags/bd.svg", // Bangladesh
     lat: 23.81,
     lon: 90.41,
   },
   {
     city: "Melbourne",
     timezone: "Australia/Melbourne",
-    flag: "🇦🇺",
+    flag: "https://open-meteo.com/images/country-flags/au.svg", // Australia
     lat: -37.81,
     lon: 144.96,
   },
   {
     city: "Texas (Austin)",
     timezone: "America/Chicago",
-    flag: "🇺🇸",
+    flag: "https://open-meteo.com/images/country-flags/us.svg", // USA
     lat: 30.26,
     lon: -97.74,
   },
   {
     city: "New Jersey",
     timezone: "America/New_York",
-    flag: "🇺🇸",
+    flag: "https://open-meteo.com/images/country-flags/us.svg", // USA
     lat: 40.05,
     lon: -74.4,
   },
   {
     city: "Tennessee",
     timezone: "America/Chicago",
-    flag: "🇺🇸",
+    flag: "https://open-meteo.com/images/country-flags/us.svg", // USA
     lat: 35.51,
     lon: -86.58,
   },
 ];
+
+// https://open-meteo.com/images/country-flags/${result.country_code.toLowerCase()}.svg
+// https://open-meteo.com/images/country-flags/BD.svg
+
+// https://open-meteo.com/images/country-flags/bd.svg
+// https://open-meteo.com/images/country-flags/bd.svg
