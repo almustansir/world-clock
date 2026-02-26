@@ -10,6 +10,7 @@ import { CityConfig } from "@/constants/cities";
 interface ClockProps extends CityConfig {
   /** Global state determining if time is shown in 24h or 12h format */
   is24Hour: boolean;
+  isCelsius: boolean;
 }
 
 /**
@@ -26,6 +27,7 @@ export default function ClockCard({
   lat,
   lon,
   is24Hour,
+  isCelsius,
 }: ClockProps) {
   // --- State Hooks ---
   const [time, setTime] = useState<string>("");
@@ -126,7 +128,12 @@ export default function ClockCard({
       <div className="h-48 w-full bg-slate-900/50 rounded-3xl animate-pulse" />
     );
   }
-
+  // Dynamic temperature calculation
+  const displayTemp = weather
+    ? isCelsius
+      ? weather.temp
+      : Math.round((weather.temp * 9) / 5 + 32)
+    : null;
   return (
     <div className="bg-slate-900/85 backdrop-blur-md p-6 rounded-3xl shadow-2xl transition-all hover:scale-105 border border-white/10 flex flex-col items-center">
       {/* City Identification Section */}
@@ -156,9 +163,10 @@ export default function ClockCard({
           <>
             {/* Left side: Icon and Temp */}
             <div className="flex items-center gap-3">
-              <span className="text-3xl drop-shadow-sm">{weather.icon}</span>
-              <span className="text-2xl font-bold text-white tracking-tight">
-                {weather.temp}°C
+              <span className="text-3xl">{weather.icon}</span>
+              <span className="text-2xl font-bold text-white">
+                {displayTemp}
+                {isCelsius ? "°C" : "°F"}
               </span>
             </div>
 

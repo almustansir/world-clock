@@ -12,10 +12,10 @@ import { CityConfig } from "@/types";
  */
 export default function WorldClockPage() {
   const [is24Hour, setIs24Hour] = useState<boolean>(false);
-
   // We start with an empty array or defaultCities to prevent SSR flickering
   const [cities, setCities] = useState<CityConfig[]>(defaultCities);
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [isCelsius, setIsCelsius] = useState<boolean>(true); // New State
 
   // --- 1. Load from localStorage on Mount ---
   useEffect(() => {
@@ -36,6 +36,18 @@ export default function WorldClockPage() {
       localStorage.setItem("world_clock_cities", JSON.stringify(cities));
     }
   }, [cities, hasLoaded]);
+
+  // Add to your useEffect (Save/Load logic)
+  useEffect(() => {
+    const savedUnit = localStorage.getItem("world_clock_unit");
+    if (savedUnit) setIsCelsius(JSON.parse(savedUnit));
+  }, []);
+
+  useEffect(() => {
+    if (hasLoaded) {
+      localStorage.setItem("world_clock_unit", JSON.stringify(isCelsius));
+    }
+  }, [isCelsius, hasLoaded]);
 
   /**
    * This is the function that was missing!
@@ -90,7 +102,13 @@ export default function WorldClockPage() {
           >
             {is24Hour ? "12H Format" : "24H Format"}
           </button>
-
+          {/* Unit Toggle Button */}
+          <button
+            onClick={() => setIsCelsius(!isCelsius)}
+            className="px-4 py-3 bg-amber-400 text-slate-950 font-bold rounded-xl hover:bg-white transition-all shadow-lg active:scale-95 cursor-pointer"
+          >
+            {isCelsius ? "°C" : "°F"}
+          </button>
           {/* New Reset Button */}
           <button
             onClick={resetToDefaults}
@@ -104,7 +122,7 @@ export default function WorldClockPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full">
         {cities.map((loc) => (
           <div key={`${loc.timezone}-${loc.city}`} className="relative group">
-            <ClockCard {...loc} is24Hour={is24Hour} />
+            <ClockCard {...loc} is24Hour={is24Hour} isCelsius={isCelsius} />
 
             {/* Simple Remove Button - hidden until hover */}
             <button
