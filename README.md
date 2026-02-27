@@ -111,8 +111,8 @@ Client-only hydration guards prevent time mismatch errors between server and bro
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/world-clock-nextjs.git
-cd world-clock-nextjs
+git clone https://github.com/almustansir/world-clock
+cd world-clock
 ```
 
 ### 2️⃣ Install Dependencies
@@ -188,16 +188,6 @@ Optimizes API calls and improves UX.
 - Efficient interval cleanup
 - Optimized API requests
 - Lightweight dependencies
-
----
-
-## 🧪 Future Enhancements
-
-- WebSocket time sync
-- Offline caching
-- User accounts with cloud sync
-- Theme customization panel
-- World Map visualization
 
 ---
 
