@@ -87,14 +87,14 @@ export default function WorldClockPage() {
 
   return (
     <main className="flex flex-col items-center py-12 px-6">
-      <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-white drop-shadow-md">
+      <h1 className="text-4xl md:text-5xl font-extrabold mb-16 text-white drop-shadow-md">
         🌍 World Digital Clocks
       </h1>
 
-      <div className="flex flex-col items-center w-full max-w-md gap-3 mb-12">
+      <div className="flex flex-col items-center w-full max-w-md gap-1 mb-4">
         <CitySearch onCityAdd={addCity} />
 
-        <div className="grid grid-cols-2 gap-3 w-full">
+        <div className="grid grid-cols-2 gap-5 w-full">
           {/* Toggle Button */}
           <button
             onClick={() => setIs24Hour(!is24Hour)}
@@ -109,13 +109,6 @@ export default function WorldClockPage() {
           >
             {isCelsius ? "°C" : "°F"}
           </button>
-          {/* New Reset Button */}
-          <button
-            onClick={resetToDefaults}
-            className="px-4 py-3 bg-white/10 text-white border border-white/20 font-bold rounded-xl hover:bg-red-500 hover:border-red-500 transition-all active:scale-95 cursor-pointer"
-          >
-            Reset Defaults
-          </button>
         </div>
       </div>
 
@@ -127,12 +120,21 @@ export default function WorldClockPage() {
             {/* Simple Remove Button - hidden until hover */}
             <button
               onClick={() => removeCity(loc.city)}
-              className="absolute -top-2 -right-2 bg-red-500 text-white w-8 h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:bg-red-600 cursor-pointer z-10"
+              className="absolute -top-2 -right-2 bg-red-500 text-white w-8 h-8 rounded-full md:opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:bg-red-600 cursor-pointer z-10"
             >
               ✕
             </button>
           </div>
         ))}
+      </div>
+      <div className="flex flex-col items-start mt-16 w-full max-w-6xl gap-1 mb-4">
+        {/* New Reset Button */}
+        <button
+          onClick={resetToDefaults}
+          className="px-4 mt-10 py-3 bg-white/10 text-white border border-white/20 font-bold rounded-xl hover:bg-red-500 hover:border-red-500 transition-all active:scale-95 cursor-pointer"
+        >
+          Reset Defaults
+        </button>
       </div>
     </main>
   );
