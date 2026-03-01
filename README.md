@@ -191,6 +191,16 @@ Optimizes API calls and improves UX.
 
 ---
 
+## 🧪 Future Enhancements
+
+* **Custom Sorting:** Drag-and-drop city reordering using `dnd-kit`.
+* **PWA Integration:** Enable offline access and "Install to Home Screen" support.
+* **Interactive Charts:** 24-hour temperature trend visualization for each location.
+* **Dynamic Theming:** Card backgrounds that react to live weather conditions (e.g., rainfall animations).
+* **Multi-language Support:** Localization for global accessibility.
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License.
